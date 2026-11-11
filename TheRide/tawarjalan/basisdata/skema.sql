@@ -1,2 +1,0 @@
--- Skema tabel MySQL TawarJalan akan disusun oleh Database Administrator.
--- Simpan definisi CREATE TABLE di file ini.
