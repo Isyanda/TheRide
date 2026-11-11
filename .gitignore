@@ -1,0 +1,17 @@
+# Konfigurasi lokal yang berisi kredensial
+/konfigurasi/basisdata.php
+
+# File sementara dan log
+*.log
+*.tmp
+*.swp
+.DS_Store
+Thumbs.db
+
+# IDE/editor
+.vscode/
+.idea/
+
+# Dependency hasil instalasi lokal (jika kelak digunakan)
+/vendor/
+/node_modules/
