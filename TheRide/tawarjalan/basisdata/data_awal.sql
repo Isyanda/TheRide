@@ -1,0 +1,2 @@
+-- Data awal/dummy untuk pengujian lokal.
+-- Isi setelah skema tabel selesai dibuat.
