@@ -1,0 +1,4 @@
+.map { min-height: 280px; border-radius: 12px; overflow: hidden; margin-top: 16px; }
+.map-large { min-height: 440px; }
+.leaflet-container { font: inherit; }
+.map.selecting-location .leaflet-container { cursor: crosshair; }

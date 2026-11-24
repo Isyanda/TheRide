@@ -1,5 +1,5 @@
 # Konfigurasi lokal yang berisi kredensial
-/konfigurasi/basisdata.php
+/config/basisdata.php
 
 # File sementara dan log
 *.log

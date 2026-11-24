@@ -14,40 +14,71 @@ Aplikasi web ride-hailing roda 4 dengan konsep tawar-menawar tarif, terinspirasi
 
 ```text
 tawarjalan/
-├── publik/                         # Satu-satunya folder yang diakses browser
+├── public/                         # Satu-satunya folder yang diakses browser
 │   ├── index.php                   # Entry point aplikasi
 │   ├── .htaccess
-│   └── aset/
+│   └── assets/
 │       ├── css/                    # dasar.css, komponen.css, peta.css
 │       ├── js/                     # peta_init.js, tawar.js, polling_lokasi.js
-│       ├── gambar/
-│       └── pustaka/leaflet/        # Letakkan file distribusi Leaflet di sini
-├── inti/                           # Koneksi, routing, sesi, helper
-├── modul/
-│   ├── akun/                       # Register, login, logout, profil
+│       └── libraries/leaflet/      # Letakkan file distribusi Leaflet di sini
+├── core/                           # Koneksi, routing, sesi, helper
+├── modules/
+│   ├── account/                    # Register, login, logout, profil
 │   ├── driver/                     # Status driver dan kendaraan
-│   ├── pesanan/                    # Pembuatan dan riwayat pesanan
-│   ├── tawaran/                    # Penawaran dan pemilihan harga
-│   └── peta/                       # API lokasi/rute dan tampilan peta
-├── templat/                        # Header, footer, navigasi bersama
-├── konfigurasi/                    # Konfigurasi aplikasi dan contoh DB
-├── basisdata/                      # Skema dan data awal SQL
-├── dokumen/                        # Charter, ERD, mockup, wawancara
-├── uji/                            # Skenario pengujian dan catatan bug
+│   ├── orders/                     # Pembuatan dan riwayat pesanan
+│   ├── offers/                     # Penawaran dan pemilihan harga
+│   └── map/                        # API lokasi/rute dan tampilan peta
+├── presentation/                   # Layer HTTP: controller, request, response, dan view
+├── application/                    # Layer use case dan orkestrasi proses bisnis
+├── domain/                         # Layer inti bisnis: entitas, value object, dan kontrak
+├── infrastructure/                 # Layer implementasi teknis: database dan layanan eksternal
+├── templates/                      # Header, footer, navigasi bersama
+├── config/                         # Konfigurasi aplikasi dan contoh DB
+├── database/                       # Skema dan data awal SQL
+├── docs/                           # Charter, ERD, mockup, wawancara
+├── tests/                          # Skenario pengujian dan catatan bug
 ├── .gitignore
 └── README.md
 ```
 
-## Persiapan lokal
+## Menjalankan aplikasi
 
-1. Install XAMPP atau Laragon.
-2. Clone repository ke folder kerja lokal.
-3. Salin `konfigurasi/basisdata.contoh.php` menjadi `konfigurasi/basisdata.php`.
-4. Isi nama database, username, dan password MySQL di `konfigurasi/basisdata.php`.
-5. Buat database MySQL, lalu import `basisdata/skema.sql` dan `basisdata/data_awal.sql` jika file tersebut sudah diisi.
-6. Atur document root Apache ke folder `publik/`, bukan root proyek. Dengan begitu `inti/`, `modul/`, dan file konfigurasi tidak bisa diakses langsung melalui URL.
+1. Jalankan MySQL di Laragon/XAMPP dan buat database sesuai `nama_database` di `config/basisdata.php` (nilai contoh: `theride`).
+2. Salin `config/basisdata.contoh.php` menjadi `config/basisdata.php`, lalu sesuaikan host, port, username, dan password MySQL lokal.
+3. Import `database/skema.sql` ke database tersebut.
+4. Dari folder proyek, jalankan `php -S 127.0.0.1:8000 -t public` lalu buka `http://127.0.0.1:8000`.
+   Alternatifnya, arahkan document root Apache ke `public/`.
 
-> Kerangka ini menyiapkan struktur folder dan file awal. Fitur aplikasi, skema database, dan tampilan masih perlu diimplementasikan oleh anggota sesuai pembagian tugas.
+Daftar sebagai penumpang untuk membuat perjalanan. Daftar sebagai driver dengan data kendaraan, buka peta driver, lalu izinkan akses lokasi. Driver dapat menerima harga penumpang atau mengirim tawaran harga lain. Penumpang memilih tawaran; driver kemudian memulai dan menyelesaikan perjalanan.
+
+Lokasi browser hanya tersedia pada HTTPS atau alamat loopback seperti `localhost` dan `127.0.0.1`. Peta menggunakan tile OpenStreetMap dan Leaflet dari internet.
+
+Gunakan akun berbeda di browser biasa dan jendela privat (atau browser/perangkat berbeda) untuk menguji alur penumpang dan driver secara bersamaan.
+
+## Arsitektur berlapis
+
+Empat folder layer (`presentation/`, `application/`, `domain/`, dan
+`infrastructure/`) telah disiapkan sebagai kerangka kosong. Migrasi fitur dari
+`modules/` akan dilakukan bertahap setelah kontrak dan pembagian tanggung jawab
+tiap layer disepakati.
+
+Aturan dependensi yang dituju:
+
+```text
+public/ -> presentation/ -> application/ -> domain/
+                            application/ -> infrastructure/
+infrastructure/ -------------------------> domain/
+```
+
+- `presentation/` menangani HTTP dan tidak mengakses database secara langsung.
+- `application/` mengoordinasikan use case tanpa bergantung pada detail HTTP.
+- `domain/` tidak bergantung pada layer lain.
+- `infrastructure/` mengimplementasikan kontrak domain dan menangani detail
+  database atau layanan eksternal.
+
+Untuk sementara, `modules/` dan `core/` tetap dipertahankan agar perilaku
+aplikasi yang ada tidak berubah. File `.gitkeep` pada setiap layer menandai
+folder scaffold sampai implementasi pertama dipindahkan.
 
 ## Aturan kolaborasi GitHub
 
@@ -85,4 +116,4 @@ Setelah push, buat Pull Request dari branch fitur menuju `develop` di GitHub.
 
 ## Keamanan konfigurasi
 
-File `konfigurasi/basisdata.php` sengaja diabaikan oleh Git karena berisi kredensial lokal. Jangan pernah mengunggah password database, token, atau secret ke repository.
+File `config/basisdata.php` sengaja diabaikan oleh Git karena berisi kredensial lokal. Jangan pernah mengunggah password database, token, atau secret ke repository.
