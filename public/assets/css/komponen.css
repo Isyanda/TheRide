@@ -1,0 +1,29 @@
+button, input, textarea { font: inherit; }
+select { font: inherit; }
+.page-shell { max-width: 760px; margin: 0 auto; padding: 24px 16px; }
+.panel { background: #fffdf8; border: 1px solid #e6dfd1; border-radius: var(--radius-kartu); padding: 22px; box-shadow: 0 8px 24px #20262512; }
+.panel-heading { display: flex; justify-content: space-between; gap: 16px; align-items: start; }
+.location-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.muted { color: #68716f; }
+.stack-form { display: grid; gap: 14px; margin-top: 18px; }
+label { display: grid; gap: 6px; font-weight: 600; }
+input, textarea { border: 1px solid #c9d2ce; border-radius: 9px; padding: 11px 12px; background: #fff; }
+select { border: 1px solid #c9d2ce; border-radius: 9px; padding: 11px 12px; background: #fff; }
+textarea { min-height: 74px; resize: vertical; }
+.auth-shell { max-width: 520px; margin: 8vh auto; }
+.auth-panel { padding: 26px; }
+.notice { margin: 14px 0; padding: 12px; border-radius: 9px; background: #f6f1e7; }
+.notice-error { background: #fff0ec; color: #a13218; }
+.page-links { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 14px 0; }
+.page-links form { margin: 0; }
+.link-button { border: 0; background: transparent; color: var(--warna-utama); cursor: pointer; text-decoration: underline; padding: 6px; }
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.button { border: 0; border-radius: 9px; padding: 11px 16px; cursor: pointer; font-weight: 700; }
+.button-primary { background: var(--warna-aksi); color: #fff; }
+.button-secondary { background: var(--warna-utama); color: #fff; }
+.form-message { min-height: 20px; color: var(--warna-utama); }
+.order-list, .offer-list { display: grid; gap: 12px; margin-top: 16px; }
+.order-card, .offer-card { border: 1px solid #d9e3df; border-radius: 12px; padding: 15px; background: #fff; }
+.order-card header, .offer-card header { display: flex; justify-content: space-between; gap: 12px; }
+.price { font-weight: 800; color: var(--warna-aksi); }
+@media (max-width: 560px) { .grid-2 { grid-template-columns: 1fr; } .panel-heading { display: block; } .panel-heading .button { margin-bottom: 12px; } }
